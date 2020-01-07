@@ -89,4 +89,10 @@ public class MessageResource {
 		//return "Got PathParam value as: "+messageId;
 		return messageService.getMessage(id);
 	}
+	
+	//For Comments. NOTE: NO action is included..
+	@Path("/{messageId}/comments")
+	public CommentResource getCommentResource() {
+		return new CommentResource();
+	} 
 }
