@@ -1,13 +1,21 @@
 package com.amit.webservices.jaxrsDemoProject.messanger.resources;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 @Path("/")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+
 public class CommentResource {
 
-	@GET
+	
+	
+	/*@GET
 	public String test() {
 		return "new comment sub resources";
 	}
@@ -16,5 +24,7 @@ public class CommentResource {
 	@Path("/{commentId}")
 	public String test2(@PathParam("messageId") int msgid, @PathParam("commentId") int comentid) {
 		return "new comment sub resources with comment ID: "+comentid+" which has message id: "+msgid;
-	}
+	}*/
+	
+	
 }
