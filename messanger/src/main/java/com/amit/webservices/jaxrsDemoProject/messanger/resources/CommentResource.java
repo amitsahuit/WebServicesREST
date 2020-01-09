@@ -13,7 +13,6 @@ import javax.ws.rs.core.MediaType;
 import com.amit.webservices.jaxrsDemoProject.messanger.model.Comment;
 import com.amit.webservices.jaxrsDemoProject.messanger.service.CommentService;
 
-
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -49,7 +48,5 @@ public class CommentResource {
 	public void deleteMessage(@PathParam("messageId") long messageid, @PathParam("commentId") long commentId) {
 		commentService.removeComment(messageid, commentId);
 	}
-	
-	
 
 }
