@@ -1,11 +1,18 @@
 package com.amit.webservices.jaxrsDemoProject.messanger.resources;
 
+import java.util.List;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import com.amit.webservices.jaxrsDemoProject.messanger.model.Comment;
+import com.amit.webservices.jaxrsDemoProject.messanger.service.CommentService;
+
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -13,18 +20,36 @@ import javax.ws.rs.core.MediaType;
 
 public class CommentResource {
 
+	private CommentService commentService = new CommentService();
 	
-	
-	/*@GET
-	public String test() {
-		return "new comment sub resources";
+	@GET
+	public List<Comment> getAllComments(@PathParam("messageId") long messageId) {
+		return commentService.getAllComments(messageId);
 	}
 	
 	@GET
+	public Comment getComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
+		return commentService.getComments(messageId,commentId);
+	}
+	
+	@POST
+	public Comment addMessage(@PathParam("messageId") long messageId, Comment comment) {
+		return commentService.addComment(messageId, comment);
+	}
+	
+	@PUT
 	@Path("/{commentId}")
-	public String test2(@PathParam("messageId") int msgid, @PathParam("commentId") int comentid) {
-		return "new comment sub resources with comment ID: "+comentid+" which has message id: "+msgid;
-	}*/
+	public Comment updateMessages(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId, Comment comment) {
+		comment.setId(commentId);
+		return commentService.updateComment(messageId, comment);
+	}
+	
+	@DELETE
+	@Path("/{commentId}")
+	public void deleteMessage(@PathParam("messageId") long messageid, @PathParam("commentId") long commentId) {
+		commentService.removeComment(messageid, commentId);
+	}
 	
 	
+
 }
