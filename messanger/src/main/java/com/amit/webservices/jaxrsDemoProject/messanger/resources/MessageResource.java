@@ -1,5 +1,7 @@
 package com.amit.webservices.jaxrsDemoProject.messanger.resources;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -12,7 +14,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 
 import com.amit.webservices.jaxrsDemoProject.messanger.model.Message;
 import com.amit.webservices.jaxrsDemoProject.messanger.resources.beans.MessageFilterBean;
@@ -59,11 +65,22 @@ public class MessageResource {
 	}
 	
 	
-	@POST
-	/*@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)*/
+	/*@POST
+	//@Consumes(MediaType.APPLICATION_JSON)
+	//@Produces(MediaType.APPLICATION_JSON)
 	public Message addMessage(Message message) {
 		return messageService.addMessage(message);
+	}*/
+	
+	@POST
+	public Response addMessage(Message message, @Context UriInfo uriInfo) throws URISyntaxException {
+		//First make a static call of Response then create an entity then do a build.
+		Message newMessage = messageService.addMessage(message);
+		//return Response.created(new URI("messenger/webapi/messages/" + newMessage.getId())).status(Status.CREATED).entity(newMessage).build();
+		
+		String newId = String.valueOf(message.getId());
+		URI uri = uriInfo.getAbsolutePathBuilder().path(newId).build();
+		return Response.created(uri).entity(newMessage).build();
 	}
 	
 	@PUT

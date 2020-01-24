@@ -14,9 +14,8 @@ import com.amit.webservices.jaxrsDemoProject.messanger.model.Comment;
 import com.amit.webservices.jaxrsDemoProject.messanger.service.CommentService;
 
 @Path("/")
-@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-
+@Consumes(MediaType.APPLICATION_JSON)
 public class CommentResource {
 
 	private CommentService commentService = new CommentService();
@@ -26,11 +25,6 @@ public class CommentResource {
 		return commentService.getAllComments(messageId);
 	}
 	
-	@GET
-	public Comment getComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
-		return commentService.getComments(messageId,commentId);
-	}
-	
 	@POST
 	public Comment addMessage(@PathParam("messageId") long messageId, Comment comment) {
 		return commentService.addComment(messageId, comment);
@@ -38,7 +32,7 @@ public class CommentResource {
 	
 	@PUT
 	@Path("/{commentId}")
-	public Comment updateMessages(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId, Comment comment) {
+	public Comment updateMessage(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId, Comment comment) {
 		comment.setId(commentId);
 		return commentService.updateComment(messageId, comment);
 	}
@@ -47,6 +41,12 @@ public class CommentResource {
 	@Path("/{commentId}")
 	public void deleteMessage(@PathParam("messageId") long messageid, @PathParam("commentId") long commentId) {
 		commentService.removeComment(messageid, commentId);
+	}
+	
+	@GET
+	@Path("/{commentId}")
+	public Comment getMessage(@PathParam("messageId") long messageId, @PathParam("commentId") long commentId) {
+		return commentService.getComment(messageId,commentId);
 	}
 
 }

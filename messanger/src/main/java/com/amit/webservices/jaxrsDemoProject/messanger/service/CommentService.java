@@ -17,7 +17,7 @@ public class CommentService {
 		return new ArrayList<Comment>(comments.values());
 	}
 	
-	public Comment getComments(long messageId, long commentId){
+	public Comment getComment(long messageId, long commentId){
 		Map<Long, Comment> comments = messages.get(messageId).getComments();
 		return comments.get(commentId);
 	}
