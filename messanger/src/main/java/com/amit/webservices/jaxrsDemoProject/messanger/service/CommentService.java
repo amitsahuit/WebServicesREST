@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import com.amit.webservices.jaxrsDemoProject.messanger.database.DatabaseClass;
 import com.amit.webservices.jaxrsDemoProject.messanger.model.Comment;
+import com.amit.webservices.jaxrsDemoProject.messanger.model.ErrorMessage;
 import com.amit.webservices.jaxrsDemoProject.messanger.model.Message;
 
 public class CommentService {
@@ -18,7 +24,24 @@ public class CommentService {
 	}
 	
 	public Comment getComment(long messageId, long commentId){
+		
+		ErrorMessage errorMessage = new ErrorMessage("NOT FOUND", 404, "Simple documentation link can be provided here.");
+		Response res = Response.status(Status.NOT_FOUND).entity(errorMessage).build();
+		
+		Message message = messages.get(messageId);
+		if(message == null) {
+			//throw new WebApplicationException(Status.NOT_FOUND);
+			throw new WebApplicationException(res);
+		}
+		
 		Map<Long, Comment> comments = messages.get(messageId).getComments();
+		Comment comment = comments.get(commentId);
+		if(comment == null) {
+			//throw new WebApplicationException(Status.NOT_FOUND);
+			//throw new WebApplicationException(res);
+			throw new NotFoundException(res);
+		}
+		
 		return comments.get(commentId);
 	}
 	
