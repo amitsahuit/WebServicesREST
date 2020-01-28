@@ -102,9 +102,23 @@ public class MessageResource {
 	@GET
 	@Path("/{messageId}")
 	/*@Produces(MediaType.APPLICATION_JSON)*/
-	public Message test(@PathParam("messageId") long id) {
+	public Message getMessage(@PathParam("messageId") long id, @Context UriInfo uriInfo) {
 		//return "Got PathParam value as: "+messageId;
-		return messageService.getMessage(id);
+		//return messageService.getMessage(id);
+		
+		Message message = messageService.getMessage(id);	
+		message.addLink(getUri(uriInfo, message), "Self");
+		return message;
+		
+	}
+
+	private String getUri(UriInfo uriInfo, Message message) {
+		String uri = uriInfo.getBaseUriBuilder()
+		.path(MessageResource.class)
+		.path(Long.toString(message.getId()))
+		.build()
+		.toString();
+		return uri;
 	}
 	
 	//For Comments. NOTE: NO action is included..
@@ -112,4 +126,5 @@ public class MessageResource {
 	public CommentResource getCommentResource() {
 		return new CommentResource();
 	} 
+	
 }
