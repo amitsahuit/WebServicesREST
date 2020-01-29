@@ -27,10 +27,38 @@ import com.amit.webservices.jaxrsDemoProject.messanger.service.MessageService;
 @Path("/messages")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+//@Produces(value = {MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 public class MessageResource {
 
 	MessageService messageService = new MessageService();
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getJSONMessages(@BeanParam MessageFilterBean filterBean) {
+		System.out.println("JSON method is called.");
+		if(filterBean.getYear() > 0) {
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		
+		if(filterBean.getStart() > 0 && filterBean.getSize() > 0) {
+			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
+		}
+		return messageService.getAllMessages();
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	public List<Message> getXMLMessages(@BeanParam MessageFilterBean filterBean) {
+		System.out.println("XML method is called.");
+		if(filterBean.getYear() > 0) {
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		
+		if(filterBean.getStart() > 0 && filterBean.getSize() > 0) {
+			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
+		}
+		return messageService.getAllMessages();
+	}
 	/*@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getMessages() {
@@ -52,7 +80,7 @@ public class MessageResource {
 		return messageService.getAllMessages();
 	}*/
 	
-	@GET
+	/*@GET
 	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
 		if(filterBean.getYear() > 0) {
 			return messageService.getAllMessagesForYear(filterBean.getYear());
@@ -62,9 +90,8 @@ public class MessageResource {
 			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
 		}
 		return messageService.getAllMessages();
-	}
-	
-	
+	}*/	
+		
 	/*@POST
 	//@Consumes(MediaType.APPLICATION_JSON)
 	//@Produces(MediaType.APPLICATION_JSON)
